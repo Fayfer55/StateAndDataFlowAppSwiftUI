@@ -9,10 +9,11 @@ import SwiftUI
 
 struct ContentView: View {
     @ObservedObject private var timer = TimeCounter()
+    @EnvironmentObject private var userManager: UserManager
     
     var body: some View {
         VStack {
-            Text("Hi, \(UserDefaults.standard.string(forKey: "name") ?? "")!")
+            Text("Hi, \(userManager.name)!")
                 .font(.largeTitle)
                 .offset(x: 0, y: 100)
             
@@ -25,7 +26,9 @@ struct ContentView: View {
 
             Spacer()
             ButtonView(color: .blue, text: "Log out") {
-                UserDefaults.standard.setValue(false, forKey: "isLoggedIn")
+                userManager.isRegister = false
+                DataManager().saveLogged(false)
+                DataManager().removeName()
             }
             .padding()
         }

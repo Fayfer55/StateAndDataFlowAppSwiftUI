@@ -9,48 +9,40 @@ import SwiftUI
 
 struct RegisteredView: View {
     @State private var name = ""
-    @State private var counterColor = Color.red
-    @State private var disableOK = true
+    @EnvironmentObject private var userManager: UserManager
     
     var body: some View {
         VStack {
             HStack() {
-                TextField("Enter your name", text: textValue)
+                TextField("Enter your name", text: $name)
                     .multilineTextAlignment(.center)
                 Text("\(name.count)")
                     .offset(x: -60, y: 0)
-                    .foregroundColor(counterColor)
+                    .foregroundColor(nameIsValid ? .green : .red)
             }
             Button(action: registerUser) {
                 HStack {
                     Image(systemName: "checkmark.circle")
                     Text("OK")
                 }
-            }.disabled(disableOK)
+            }.disabled(!nameIsValid)
         }
     }
 }
 
 extension RegisteredView {
-    var textValue: Binding<String> {
-        Binding<String>(get: {
-            name
-        }, set: { textValue in
-            name = textValue
-            if name.count >= 3 {
-                counterColor = .green
-                disableOK = false
-            } else {
-                counterColor = .red
-                disableOK = true
-            }
-        })
-    }
+    
+    private var nameIsValid: Bool {
+            name.count >= 3
+        }
     
     private func registerUser() {
         if !(name.isEmpty) {
-            UserDefaults.standard.setValue(name, forKey: "name")
-            UserDefaults.standard.setValue(true, forKey: "isLoggedIn")
+            userManager.name = name
+            DataManager().saveName(name)
+            
+            userManager.isRegister = true
+            DataManager().saveLogged(true)
         }
     }
 }

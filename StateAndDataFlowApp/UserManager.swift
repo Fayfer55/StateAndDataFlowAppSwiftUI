@@ -5,9 +5,15 @@
 //  Created by Alexey Efimov on 22.10.2020.
 //
 
-//import SwiftUI
-//
-//struct UserManager {
-//    @AppStorage("isLoggedIn") private var isRegister = false
-//    @AppStorage("name") private var name = ""
-//}
+import Combine
+
+class UserManager: ObservableObject {
+    @Published var isRegister = DataManager().getStatusLogged()
+    var name = DataManager().getName()
+    
+    init() {}
+    
+    init(name: String) {
+        self.name = name
+    }
+}
