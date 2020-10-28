@@ -39,10 +39,10 @@ extension RegisteredView {
     private func registerUser() {
         if !(name.isEmpty) {
             userManager.name = name
-            DataManager().saveName(name)
+            DataManager.shared.saveName(name: name)
             
             userManager.isRegister = true
-            DataManager().saveLogged(true)
+            DataManager.shared.saveLogged(statusLog: true)
         }
     }
 }

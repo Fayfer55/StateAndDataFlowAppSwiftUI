@@ -8,8 +8,8 @@
 import Combine
 
 class UserManager: ObservableObject {
-    @Published var isRegister = DataManager().getStatusLogged()
-    var name = DataManager().getName()
+    @Published var isRegister = DataManager.shared.getStatusLogged()
+    var name = DataManager.shared.getName()
     
     init() {}
     

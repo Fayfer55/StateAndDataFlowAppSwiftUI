@@ -10,26 +10,32 @@ import SwiftUI
 struct DataManager {
     @AppStorage("isLoggedIn") private var isLoggedIn = false
     @AppStorage("name") private var name = ""
+    
+    static let shared = DataManager()
+    
+    private init() {}
 }
 
 extension DataManager {
-    func saveName(_ value: Any?) {
-        UserDefaults.standard.setValue(value, forKey: "name")
+    func saveName(name: String) {
+        self.name = name
     }
     
-    func saveLogged(_ value: Any?) {
-        UserDefaults.standard.setValue(value, forKey: "isLoggedIn")
+    func saveLogged(statusLog: Bool) {
+        self.isLoggedIn = statusLog
     }
     
     func getName() -> String {
-        UserDefaults.standard.string(forKey: "name") ?? ""
+        name
     }
     
     func getStatusLogged() -> Bool {
-        UserDefaults.standard.bool(forKey: "isLoggedIn")
+        isLoggedIn
     }
     
     func removeName() {
+        isLoggedIn = false
+        name = ""
         UserDefaults.standard.removeObject(forKey: "name")
     }
 }

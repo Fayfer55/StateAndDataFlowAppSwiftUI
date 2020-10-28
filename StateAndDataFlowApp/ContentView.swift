@@ -27,8 +27,9 @@ struct ContentView: View {
             Spacer()
             ButtonView(color: .blue, text: "Log out") {
                 userManager.isRegister = false
-                DataManager().saveLogged(false)
-                DataManager().removeName()
+                
+                DataManager.shared.saveLogged(statusLog: false)
+                DataManager.shared.removeName()
             }
             .padding()
         }
